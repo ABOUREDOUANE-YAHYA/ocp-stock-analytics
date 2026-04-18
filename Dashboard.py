@@ -4,7 +4,7 @@ import matplotlib.patches as mpatches
 import streamlit as st
 
 # --- CONFIG ---
-st.set_page_config(page_title="OCP Stock Dashboard", layout="wide", page_icon="🏭")
+st.set_page_config(page_title="OCP Stock Dashboard", layout="wide", page_icon="")
 
 st.markdown("""
     <style>
@@ -36,7 +36,7 @@ def load_data():
 df = load_data()
 
 # --- SIDEBAR ---
-st.sidebar.title("🏭 Filtres")
+st.sidebar.title("Filtres")
 
 selected_categories = st.sidebar.multiselect(
     "Catégorie", options=sorted(df["Category"].unique()), default=[]
@@ -59,7 +59,7 @@ if st.sidebar.button("🔄 Reset"):
     st.rerun()
 
 st.sidebar.markdown("---")
-st.sidebar.caption(f"📊 {len(df):,} mouvements au total")
+st.sidebar.caption(f"{len(df):,} mouvements au total")
 
 # --- FILTRES ---
 filtered = df.copy()
@@ -76,11 +76,11 @@ if len(date_range) == 2:
     ]
 
 if len(filtered) == 0:
-    st.warning("⚠️ Aucun résultat pour ces filtres.")
+    st.warning("Aucun résultat pour ces filtres.")
     st.stop()
 
 # --- HEADER ---
-st.title("🏭 OCP — Dashboard Gestion de Stock")
+st.title("OCP — Dashboard Gestion de Stock")
 st.caption(f"Période : {filtered['Date'].min().date()} → {filtered['Date'].max().date()} · {len(filtered):,} mouvements")
 
 # --- KPI CARDS ---
@@ -91,10 +91,10 @@ total_sorties = filtered[filtered["Movement Type"] == "Sortie"]["Quantity"].sum(
 alertes      = filtered[filtered["Alert"] == "Rupture"].shape[0]
 taux_alerte  = alertes / len(filtered) * 100
 
-col1.metric("📥 Total Entrées",      f"{total_entrees:,.0f}")
-col2.metric("📤 Total Sorties",      f"{total_sorties:,.0f}")
-col3.metric("🚨 Alertes Rupture",    f"{alertes:,}")
-col4.metric("⚠️ Taux d'Alerte",      f"{taux_alerte:.1f}%")
+col1.metric("Total Entrées",      f"{total_entrees:,.0f}")
+col2.metric("Total Sorties",      f"{total_sorties:,.0f}")
+col3.metric("Alertes Rupture",    f"{alertes:,}")
+col4.metric("Taux d'Alerte",      f"{taux_alerte:.1f}%")
 
 st.markdown("---")
 
@@ -187,7 +187,7 @@ with col_d:
 st.markdown("---")
 
 # --- TABLE ALERTES RÉCENTES ---
-st.subheader("🚨 Dernières Alertes de Rupture")
+st.subheader("Dernières Alertes de Rupture")
 recent_alerts = (
     filtered[filtered["Alert"] == "Rupture"]
     [["Date", "Product Name", "Category", "Stock Level", "Reorder Point", "Movement Type"]]
